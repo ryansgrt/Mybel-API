@@ -1,0 +1,24 @@
+version: "3"
+volumes:
+  mybel_uploads:
+    external: false
+networks:
+  mysql-dev_dbnet:
+    external: true
+  mybel_networks: {}
+services:
+  mybel-api:
+    image: "${MYBEL_IMAGE}"
+    restart: always
+    ports:
+      - 5004:8484
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/mybel?useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: pascalpass
+    volumes:
+      - mybel_uploads:/service/uploads
+    networks:
+      - mybel_networks
+      - mysql-dev_dbnet
